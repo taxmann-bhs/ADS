@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MIT
 /**
-   Copyright (c) 2021 - 2022 Beckhoff Automation GmbH & Co. KG
+   Copyright (c) Beckhoff Automation GmbH & Co. KG
  */
 
 #include "RouterAccess.h"
 #include "Log.h"
 #include "wrap_endian.h"
 #include <array>
+#include <iomanip>
 #include <iostream>
 
 namespace bhf
@@ -55,9 +56,12 @@ struct SearchPciBusResNew {
 
 std::ostream &operator<<(std::ostream &os, const SearchPciSlotResNew &slot)
 {
+	const auto high = uint64_t(bhf::ads::letoh(slot.leBaseAddresses[1]));
+	const auto low = uint64_t(bhf::ads::letoh(slot.leBaseAddresses[0]));
+	const auto address = high << 32 | low;
 	return os << std::dec << bhf::ads::letoh(slot.leBusNumber) << ':'
-		  << bhf::ads::letoh(slot.leSlotNumber) << " @ 0x"
-		  << bhf::ads::letoh(slot.leBaseAddresses[0]);
+		  << bhf::ads::letoh(slot.leSlotNumber) << " @ 0x" << std::hex
+		  << std::setw(16) << std::setfill('0') << address;
 }
 
 RouterAccess::RouterAccess(const std::string &gw, const AmsNetId netid,
