@@ -1,3 +1,9 @@
+adstool (113.0.32-1) trixie; urgency=medium
+
+  * RouterAccess: print PCI addresses as hex + 64bit
+
+ -- Patrick Bruenn <p.bruenn@beckhoff.com>  Wed, 11 Feb 2026 10:11:24 +0000
+
 adstool (113.0.31-1) trixie; urgency=medium
 
   * RegistryAccess: unescape '\' and '"' in string values, too
